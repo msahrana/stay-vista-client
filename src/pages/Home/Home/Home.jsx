@@ -1,11 +1,17 @@
-
+import { Helmet } from "react-helmet-async";
+import Categories from "../../../components/Categories/Categories";
+import Rooms from "../../../components/Rooms/Rooms";
 
 const Home = () => {
-    return (
-        <div>
-            <h1>Welcome to Stay Vista</h1>
-        </div>
-    );
+  return (
+    <div>
+      <Helmet>
+        <title>StayVista || Home</title>
+      </Helmet>
+      <Categories />
+      <Rooms />
+    </div>
+  );
 };
 
 export default Home;
