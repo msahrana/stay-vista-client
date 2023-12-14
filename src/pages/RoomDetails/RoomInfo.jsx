@@ -14,7 +14,7 @@ const RoomInfo = ({ room }) => {
           </div>
         </div>
         <hr />
-        <div className='text-lg font-light text-neutral-500'>
+        <div className='text-lg font-light text-neutral-500 text-justify'>
           {room?.description}
         </div>
         <hr />

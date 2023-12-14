@@ -1,7 +1,36 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
+import { imageUpload } from '../../api/utils'
+import useAuth from '../../hooks/useAuth'
+import { getToken, saveUser } from '../../api/auth'
+import { toast } from 'react-hot-toast'
 
 const SignUp = () => {
+  const navigate = useNavigate()
+  const { createUser, updateUserProfile,  } = useAuth()
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const form = event.target 
+    const name = form.name.value 
+    const email = form.email.value 
+    const password = form.password.value 
+    const image = form.image.files[0]
+    try{
+      const imageData = await imageUpload(image)
+      const result = await createUser(email, password)
+      console.log(result)
+      await updateUserProfile(name, imageData?.data?.display_url)
+      const dbResponse = await saveUser(result?.user)
+      console.log(dbResponse) 
+      await getToken(result?.user?.email)
+      navigate('/')
+      toast.success('SignUp Successfully')
+    }catch(err){
+      console.log(err)
+      toast.error(err?.massage)
+    }
+  }
+
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -9,7 +38,7 @@ const SignUp = () => {
           <h1 className='my-3 text-4xl font-bold'>Sign Up</h1>
           <p className='text-sm text-gray-400'>Welcome to StayVista</p>
         </div>
-        <form
+        <form onSubmit={handleSubmit}
           noValidate=''
           action=''
           className='space-y-6 ng-untouched ng-pristine ng-valid'
