@@ -11,9 +11,13 @@ export const saveUser = async user => {
     return data 
 }
 
-
 export const getToken = async email => {
     const { data } = await axiosSecure.post('/jwt', email)
     console.log('Token received from server--------->', data)
+    return data 
+}
+
+export const clearCookie = async () => {
+    const { data } = await axiosSecure.get('/logout')
     return data 
 }
