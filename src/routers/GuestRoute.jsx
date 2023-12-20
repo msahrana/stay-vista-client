@@ -4,9 +4,9 @@ import useRole from "../hooks/useRole";
 
 
 const GuestRoute = ({children}) => {
-    const { role, loading } = useRole()
+    const { role, isLoading } = useRole()
 
-    if(loading) { return <Loader/> }
+    if(isLoading) { return <Loader/> }
 
     if(role === 'guest') { return children }
 

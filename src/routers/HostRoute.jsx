@@ -2,11 +2,10 @@ import { Navigate } from "react-router-dom";
 import Loader from "../components/Shared/Loader";
 import useRole from "../hooks/useRole";
 
-
 const HostRoute = ({children}) => {
-    const { role, loading } = useRole()
+    const { role, isLoading } = useRole()
 
-    if(loading) { return <Loader/> }
+    if(isLoading) { return <Loader/> }
 
     if(role === 'host') { return children }
 
