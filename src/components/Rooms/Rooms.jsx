@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import Card from './Card'
 import Container from '../Shared/Container'
@@ -15,8 +14,7 @@ const Rooms = () => {
 
   useEffect(() => {
     setLoading(true)
-    getAllRooms()
-      .then(data => {
+    getAllRooms().then(data => {
         if (category) {
           const filtered = data.filter(room => room.category === category)
           setRooms(filtered)
@@ -27,6 +25,7 @@ const Rooms = () => {
   }, [category])
 
   if (loading) return <Loader />
+  
   return (
     <Container>
       {rooms && rooms.length > 0 ? (
