@@ -1,19 +1,26 @@
-import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import useAuth from '../../../hooks/useAuth'
-import { getHostRooms } from '../../../api/rooms'
-import RoomDataRow from '../../../components/Dashboard/Sidebar/TableRows/RoomDataRow'
+import { useQuery } from '@tanstack/react-query'
+import { getBookings } from '../../../api/bookings'
+import Loader from '../../../components/Shared/Loader'
+import TableRow from '../../../components/Dashboard/Sidebar/TableRows/TableRow'
 
-const MyListings = () => {
-  const { user } = useAuth()
-  const [rooms, setRooms] = useState([])
-  useEffect(() => {
-    getHostRooms(user?.email).then(data => setRooms(data))
-  }, [user])
+const MyBookings = () => {
+  const { user, loading } = useAuth()
+  const {
+    data: bookings = [],
+    isLoading
+  } = useQuery({
+    queryKey: ['bookings', user?.email],
+    enabled: !loading,
+    queryFn: async () => await getBookings(user?.email),
+  })
+
+  if (isLoading) return <Loader />
   return (
     <>
       <Helmet>
-        <title>My Listings | Dashboard</title>
+        <title>My Bookings</title>
       </Helmet>
 
       <div className='container mx-auto px-4 sm:px-8'>
@@ -33,7 +40,7 @@ const MyListings = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Location
+                      Info
                     </th>
                     <th
                       scope='col'
@@ -57,22 +64,16 @@ const MyListings = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Delete
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Update
+                      Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* Room row data */}
-
-                  {rooms.map(room => (
-                    <RoomDataRow key={room._id} room={room} />
-                  ))}
+                  {/* Table Row Data */}{' '}
+                  {bookings &&
+                    bookings.map(booking => (
+                      <TableRow key={booking._id} booking={booking} />
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -83,4 +84,4 @@ const MyListings = () => {
   )
 }
 
-export default MyListings
+export default MyBookings

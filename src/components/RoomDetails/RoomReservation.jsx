@@ -6,7 +6,7 @@ import BookingModal from '../Modal/BookingModal'
 import useAuth from '../../hooks/useAuth'
 
 const RoomReservation = ({ room }) => {
-  let [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const { user } = useAuth()
 
   const closeModal = () => {
@@ -21,7 +21,7 @@ const RoomReservation = ({ room }) => {
   const totalDays = parseInt(
     formatDistance(new Date(room?.to), new Date(room?.from)).split(' ')[0]
   )
-  // Total Price Calculation
+  // // Total Price Calculation
   const totalPrice = totalDays * room?.price
   const handleDateChange = ranges => {
     console.log(ranges)
@@ -31,6 +31,7 @@ const RoomReservation = ({ room }) => {
       key: 'selection',
     })
   }
+  
   const [bookingInfo, setBookingInfo] = useState({
     guest: {
       name: user?.displayName,

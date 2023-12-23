@@ -1,10 +1,26 @@
 import { Helmet } from 'react-helmet-async'
+import useAuth from '../../../hooks/useAuth'
+import { useQuery } from '@tanstack/react-query'
+import { getHostBookings } from '../../../api/bookings'
+import Loader from '../../../components/Shared/Loader'
+import TableRow from '../../../components/Dashboard/Sidebar/TableRows/TableRow'
 
 const ManageBookings = () => {
+  const { user, loading } = useAuth()
+  const {
+    data: bookings = [],
+    isLoading
+  } = useQuery({
+    queryKey: ['bookings', user?.email],
+    enabled: !loading,
+    queryFn: async () => await getHostBookings(user?.email),
+  })
+  console.log(bookings)
+  if (isLoading) return <Loader />
   return (
     <>
       <Helmet>
-        <title>Manage Bookings || Dashboard </title>
+        <title>Manage Bookings</title>
       </Helmet>
 
       <div className='container mx-auto px-4 sm:px-8'>
@@ -52,7 +68,13 @@ const ManageBookings = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{/* Table row data */}</tbody>
+                <tbody>
+                  {/* Table row data */}{' '}
+                  {bookings &&
+                    bookings.map(booking => (
+                      <TableRow key={booking._id} booking={booking} />
+                    ))}
+                </tbody>
               </table>
             </div>
           </div>

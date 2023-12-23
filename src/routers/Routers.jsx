@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
       {
         path: '/room/:id',
         element: <PrivateRoute><RoomDetails></RoomDetails></PrivateRoute>,
-        loader: ({params}) => getRoom(params.id),
+        loader: ({params}) => getRoom(params.id)
       },
     ],
   },
