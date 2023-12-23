@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-
 import { useSearchParams } from 'react-router-dom'
 import Container from '../Shared/Container'
 

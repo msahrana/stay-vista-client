@@ -2,7 +2,6 @@ import Container from '../Container'
 import MenuDropdown from './MenuDropdown'
 import Logo from '../Logo'
 
-
 const Navbar = () => {
   return (
     <div className='fixed w-full bg-white z-10 shadow-sm'>
